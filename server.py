@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
 
-from pprint import pformat
+from pprint import pformat, pprint
 import os
 import requests
+
 
 
 app = Flask(__name__)
@@ -43,6 +44,12 @@ def find_afterparties():
     url = 'https://app.ticketmaster.com/discovery/v2/events'
     payload = {'apikey': API_KEY}
 
+    req = requests.get(url, params=payload)
+    print(req)
+    data = req.json()
+
+    pprint(data['_embedded']['events'][0])
+
     # TODO: Make a request to the Event Search endpoint to search for events
     #
     # - Use form data from the user to populate any search parameters
@@ -54,8 +61,9 @@ def find_afterparties():
     # - Replace the empty list in `events` with the list of events from your
     #   search results
 
-    data = {'Test': ['This is just some test data'],
-            'page': {'totalElements': 1}}
+
+    # data = {'Test': ['This is just some test data'],
+    #         'page': {'totalElements': 1}}
     events = []
 
     return render_template('search-results.html',
